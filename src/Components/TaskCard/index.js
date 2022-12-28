@@ -35,7 +35,6 @@ const TaskCard = (props) => {
                     <span className='key-points-text'>Key Points: </span> 
                     {taskdetails}
                 </p>
-                <button>View More</button>
             </div>
                 {isCompleted ? null : (
                     <div
