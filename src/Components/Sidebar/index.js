@@ -4,20 +4,11 @@ import PopupContent from '../PopupContent'
 import TabItem from "../TabItem";
 import LabelItem from "../LabelItem";
 import newTaskContext from "../../Context/newTaskContext";
-import {BsExclamationCircle, BsCheckAll, BsThreeDots, BsCheckCircle} from 'react-icons/bs'
+import {BsExclamationCircle, BsCheckCircle} from 'react-icons/bs'
 import {IoMdAddCircleOutline, IoMdClose} from 'react-icons/io'
-import {RiDeleteBinLine} from 'react-icons/ri'
-
+import { TabsList } from "../../AppConstants/constants";
 import 'reactjs-popup/dist/index.css';
 import './index.css'
-
-const TabsList = [
-    {id: "INCOMPLETE", tabText: "Incomplete Tasks", tabLogo: <BsExclamationCircle className="tab-icons" />},
-    {id: "COMPLETE", tabText: "Completed Tasks", tabLogo: <BsCheckAll className="tab-icons" />},
-    {id: "DELETE", tabText: "Deleted Tasks", tabLogo: <RiDeleteBinLine className="tab-icons" />},
-    {id: "DUE", tabText: "Due Soon", tabLogo: <BsThreeDots className="tab-icons" />},
-]
-
 class Sidebar extends Component {
     state = {
         activeTabId: "INCOMPLETE",
@@ -33,7 +24,7 @@ class Sidebar extends Component {
         return(
             <newTaskContext.Consumer>
                 {value => {
-                    const {createNewLabel, changeLabelInput, changeLabelColor, labelName, labelColor, allLabels} = value
+                    const {createNewLabel, changeLabelInput, changeLabelColor,labelName, labelColor, allLabels} = value
 
                     const onChangeLabelInput = (e) => {
                         changeLabelInput(e.target.value)

@@ -8,16 +8,8 @@ import {FiMessageSquare} from 'react-icons/fi'
 import {AiOutlineBell} from 'react-icons/ai'
 import {CgProfile} from 'react-icons/cg'
 import {BsInfoCircle} from 'react-icons/bs'
-// import {BiTaskX} from 'react-icons/bi'
-// import {MdRefresh} from 'react-icons/md'
+import {labelsList} from '../../AppConstants/constants'
 import './index.css'
-
-const labelsList = [
-    {id: "HIGH", labelText: "High", lableLogo: <GoTag />, labelColor: "#ed328f"},
-    {id: "MEDIUM", labelText: "Medium", lableLogo: <GoTag />, labelColor: "#e7f551"},
-    {id: "LOW", labelText: "Low", lableLogo: <GoTag />, labelColor: "#42c756"},
-]
-
 class Todos extends Component {
     state = {
         taskName: "",
@@ -30,6 +22,8 @@ class Todos extends Component {
         category : "All",
         labelName: "",
         labelColor: "#c731de",
+        editedLabelText: "",
+        editedLabelColor: "",
         allLabels: labelsList,
     }
     
@@ -291,7 +285,7 @@ class Todos extends Component {
         const firLetter = labelName[0].toUpperCase()
         const labelname = firLetter + labelName.substring(1)
         const newLabel = {
-            id: labelName.toUpperCase(),
+            id: uuidv4(),
             labelText: labelname,
             lableLogo: <GoTag />,
             labelColor: labelColor,
@@ -300,6 +294,37 @@ class Todos extends Component {
             allLabels: [...prev.allLabels, newLabel]
         }))
         this.setState({id: "", labelName: "", labelColor: "#c731de"})
+    }
+
+    deleteLabel = (id) => {
+        const {allLabels} = this.state
+        const updatedLabelsList = allLabels.filter(e => e.id !== id)
+        this.setState({allLabels: updatedLabelsList})
+    }
+
+    editLabelText = (val) => {
+        this.setState({editedLabelText: val})
+    }
+
+    editLabelColor = (val) => {
+        this.setState({editedLabelColor: val})
+    }
+
+    editLabel = (id) => {
+        const {allLabels, editedLabelText, editedLabelColor} = this.state
+        const firLetter = editedLabelText[0].toUpperCase()
+        const labelname = firLetter + editedLabelText.substring(1)
+        for (let i of allLabels) {
+            if (i.id === id) {
+                i.labelText = labelname
+                i.labelColor = editedLabelColor
+            }
+        }
+        this.setState({allLabels: allLabels})
+    }
+
+    setEditableLabelData = data => {
+        this.setState({editedLabelText: data.labelText, editedLabelColor: data.labelColor})
     }
 
     render() {
@@ -313,7 +338,9 @@ class Todos extends Component {
             category,
             labelName,
             labelColor,
-            allLabels
+            allLabels,
+            editedLabelText,
+            editedLabelColor,
         } = this.state
         // const dueSoonTasks = this.getDueSoonTasks()
         // console.log(dueSoonTasks.length)
@@ -333,6 +360,8 @@ class Todos extends Component {
                     labelName,
                     labelColor,
                     allLabels,
+                    editedLabelText,
+                    editedLabelColor,
                     changeTask: this.changeTask,
                     changeTaskDetails: this.changeTaskDetails,
                     changePriority: this.changePriority,
@@ -342,6 +371,11 @@ class Todos extends Component {
                     changeLabelInput: this.onChangeLabelInput,
                     changeLabelColor: this.onChangeColorInput,
                     createNewLabel: this.onCreateNewLabel,
+                    deleteLabel: this.deleteLabel,
+                    editLabelText: this.editLabelText,
+                    editLabelColor: this.editLabelColor,
+                    editLabel: this.editLabel,
+                    setEditableLabelData: this.setEditableLabelData,
                 }}>
                 <div className='bg-container'>
                     <div className='app-container'>
@@ -367,7 +401,7 @@ class Todos extends Component {
                                         value={searchInput}
                                         type="search"
                                         className='search-element'
-                                        placeholder='Search here'
+                                        placeholder='Search Task here'
                                         onChange={this.onSearch} />
                                     <GoSearch className='search-icon' />
                                 </div>

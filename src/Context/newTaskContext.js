@@ -1,11 +1,6 @@
 import React from 'react'
-import {GoTag} from 'react-icons/go'
+import {labelsList} from '../AppConstants/constants'
 
-const labelsList = [
-  {id: "HIGH", labelText: "High", lableLogo: <GoTag />, labelColor: "#ed328f"},
-  {id: "MEDIUM", labelText: "Medium", lableLogo: <GoTag />, labelColor: "#e7f551"},
-  {id: "LOW", labelText: "Low", lableLogo: <GoTag />, labelColor: "#42c756"},
-]
 
 const newTaskContext = React.createContext({
   taskName: "",
@@ -16,6 +11,8 @@ const newTaskContext = React.createContext({
   allLabels: labelsList,
   labelName: "",
   labelColor: "#c731de",
+  editedLabelText: "",
+  editedLabelColor: "",
   changeTask: () => {},
   changeTaskDetails: () => {},
   changePriority: () => {},
@@ -25,6 +22,11 @@ const newTaskContext = React.createContext({
   changeLabelInput: () => {},
   changeLabelColor: () => {},
   createNewLabel: () => {},
+  deleteLabel: () => {},
+  editLabelText: () => {},
+  editLabelColor: () => {},
+  editLabel: () => {},
+  setEditableLabelData: () => {},
 })
 
 export default newTaskContext

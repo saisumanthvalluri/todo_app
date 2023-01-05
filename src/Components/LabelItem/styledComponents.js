@@ -7,11 +7,14 @@ export const Labelitem = styled.li`
   color: #ffffff;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
   font-size: 20px;
   font-family: "Roboto";
   font-weight: 500;
+  width: 90%;
+  cursor: pointer;
 `;
 
 export const Logo = styled.span`
