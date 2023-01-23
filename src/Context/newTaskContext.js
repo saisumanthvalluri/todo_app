@@ -8,6 +8,7 @@ const newTaskContext = React.createContext({
   priority: "High",
   dueDate: "",
   activeTab: "INCOMPLETE",
+  allTasks: [],
   allLabels: labelsList,
   labelName: "",
   labelColor: "#c731de",

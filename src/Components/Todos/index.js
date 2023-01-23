@@ -50,13 +50,15 @@ class Todos extends Component {
 
     createNewTask = () => {
         const {taskName, taskDetails, priority, dueDate} = this.state
+        const shortDueDate = dueDate.toLocaleDateString('en-GB').split('/').reverse().join('-')
         const newTask = {
             id: uuidv4(),
             taskname: taskName,
             taskdetails: taskDetails,
             priority,
-            duedate: dueDate,
+            duedate: shortDueDate,
             createdat: new Date().toLocaleString(),
+            duedateobj: dueDate,
             isCompleted: false,
             isDeleted: false,
         }
@@ -117,16 +119,22 @@ class Todos extends Component {
 
     getIncompletedTasks = () => {
         const {allTasks, searchInput, category} = this.state
-        if (searchInput !== "" || category === "All") {
+        if (searchInput !== "" && category === "All") {
             const inCompleteTasks = allTasks.filter(
-                each => each.isCompleted === false &&
-                each.isDeleted === false &&
+                each => each.isCompleted === false && each.isDeleted === false &&
                 each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
+            )
+            return inCompleteTasks
+        } else if (searchInput === "" && category === "All") {
+            const inCompleteTasks = allTasks.filter(
+                each => each.isCompleted === false && each.isDeleted === false
             )
             return inCompleteTasks
         } else {
             const inCompleteTasks = allTasks.filter(
-                each => each.isCompleted === false && each.isDeleted === false && each.priority === category
+                each => each.isCompleted === false && each.isDeleted === false &&
+                each.priority === category
+                && each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
             )
             return inCompleteTasks
         }
@@ -134,16 +142,22 @@ class Todos extends Component {
 
     getCompletedTasks = () => {
         const {allTasks, searchInput, category} = this.state
-        if (searchInput !== "" || category === "All") {
+        if (searchInput !== "" && category === "All") {
             const completeTasks = allTasks.filter(
-                each => each.isCompleted !== false &&
-                each.isDeleted === false &&
+                each => each.isCompleted !== false && each.isDeleted === false &&
                 each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
+            )
+            return completeTasks
+        } else if (searchInput === "" && category === "All") {
+            const completeTasks = allTasks.filter(
+                each => each.isCompleted !== false && each.isDeleted === false
             )
             return completeTasks
         } else {
             const completeTasks = allTasks.filter(
-                each => each.isCompleted !== false && each.isDeleted === false && each.priority === category
+                each => each.isCompleted !== false && each.isDeleted === false &&
+                each.priority === category
+                && each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
             )
             return completeTasks
         }
@@ -151,18 +165,24 @@ class Todos extends Component {
 
     getDeletedTasks = () => {
         const {allTasks, searchInput, category} = this.state
-        if (searchInput !== "" || category === "All") {
-            const completeTasks = allTasks.filter(
+        if (searchInput !== "" && category === "All") {
+            const deletedTasks = allTasks.filter(
                 each => each.isDeleted === true && each.isCompleted === false &&
                 each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
             )
-            return completeTasks
+            return deletedTasks
+        } if (searchInput === "" && category === "All") {
+            const deletedTasks = allTasks.filter(
+                each => each.isDeleted === true && each.isCompleted === false
+            )
+            return deletedTasks
         } else {
-            const completeTasks = allTasks.filter(
+            const deletedTasks = allTasks.filter(
                 each => each.isDeleted === true && each.isCompleted === false &&
                 each.priority === category
+                && each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
             )
-            return completeTasks
+            return deletedTasks
         }
     }
 
@@ -170,19 +190,26 @@ class Todos extends Component {
         const {allTasks, searchInput, category} = this.state
         const date = new Date();
         const currDate = date.toLocaleDateString('en-GB').split('/').reverse().join('-')
-        if (searchInput !== "" || category === "All") {
-            const dueSoonData = allTasks.filter(
+        if (searchInput !== "" && category === "All") {
+            const dueSoonTasks = allTasks.filter(
                 each => each.duedate === currDate && each.isCompleted === false &&
                 each.isDeleted === false &&
                 each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
             )
-            return dueSoonData
-        } else {
-            const dueSoonData = allTasks.filter(
-                each => each.duedate === currDate && each.isCompleted === false && each.isDeleted === false
-                && each.priority === category
+            return dueSoonTasks
+        } else if (searchInput === "" && category === "All") {
+            const dueSoonTasks = allTasks.filter(
+                each => each.duedate === currDate && each.isCompleted === false &&
+                each.isDeleted === false
             )
-            return dueSoonData
+            return dueSoonTasks
+        } else {
+            const dueSoonTasks = allTasks.filter(
+                each => each.duedate === currDate && each.isCompleted === false &&
+                each.isDeleted === false && each.priority === category &&
+                each.taskname.toLocaleUpperCase().includes(searchInput.toLocaleUpperCase())
+            )
+            return dueSoonTasks
         }
     }
 
@@ -297,9 +324,21 @@ class Todos extends Component {
     }
 
     deleteLabel = (id) => {
-        const {allLabels} = this.state
-        const updatedLabelsList = allLabels.filter(e => e.id !== id)
-        this.setState({allLabels: updatedLabelsList})
+        const {allLabels, allTasks} = this.state
+        const toDeleteLabel = allLabels.filter(e => e.id === id)
+        const label = toDeleteLabel[0].labelText
+        let counter = 0
+        for (let task of allTasks) {
+            if (task.priority === label) {
+                counter += 1
+            }
+        }
+        if (counter === 0) {
+            const updatedLabelsList = allLabels.filter(e => e.id !== id)
+            this.setState({allLabels: updatedLabelsList})
+        } else {
+            alert(`you can't Delete ${label} label as it is exists in Tasks!`)
+        }
     }
 
     editLabelText = (val) => {
@@ -319,8 +358,8 @@ class Todos extends Component {
                 i.labelText = labelname
                 i.labelColor = editedLabelColor
             }
-        }
         this.setState({allLabels: allLabels})
+        }
     }
 
     setEditableLabelData = data => {
@@ -341,6 +380,7 @@ class Todos extends Component {
             allLabels,
             editedLabelText,
             editedLabelColor,
+            allTasks
         } = this.state
         // const dueSoonTasks = this.getDueSoonTasks()
         // console.log(dueSoonTasks.length)
@@ -362,6 +402,7 @@ class Todos extends Component {
                     allLabels,
                     editedLabelText,
                     editedLabelColor,
+                    allTasks,
                     changeTask: this.changeTask,
                     changeTaskDetails: this.changeTaskDetails,
                     changePriority: this.changePriority,

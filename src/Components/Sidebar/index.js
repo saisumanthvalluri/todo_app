@@ -55,9 +55,7 @@ class Sidebar extends Component {
                             <Popup
                                 className="pop-up"
                                 modal
-                                trigger={
-                                    <button className="new-task-btn">+ New Task</button>
-                                }>
+                                trigger={ <button className="new-task-btn">+ New Task</button> }>
                                     {close => (
                                         <div className="modal-container">
                                             <h2 className="modal-title">
@@ -112,7 +110,7 @@ class Sidebar extends Component {
                                     {close => (
                                         <div className="modal-container2">
                                         <IoMdClose className="close-icon" onClick={() => close()} />
-                                            <form className="addlabel-color-form">
+                                            <form className="addlabel-color-form" autoComplete='off'>
                                                 <label 
                                                     className="form-label2"
                                                     htmlFor="LabelName">
@@ -125,6 +123,7 @@ class Sidebar extends Component {
                                                     type="text"
                                                     placeholder="Label Name"
                                                     className="form-input2" 
+                                                    maxLength={15}
                                                 /> 
                                                 <label 
                                                     className="form-label2"

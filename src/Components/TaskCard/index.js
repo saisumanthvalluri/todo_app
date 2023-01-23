@@ -1,7 +1,7 @@
 import './index.css'
-import Popup from 'reactjs-popup';
 import {GoTag} from 'react-icons/go'
-import {IoMdClose} from 'react-icons/io'
+import TaskCardDetaildView from "../TaskCardDetaildView"
+// import Modal from 'react-modal';
 import {MdOutlineDelete, MdOutlineRestore} from 'react-icons/md'
 
 const TaskCard = (props) => {
@@ -33,19 +33,7 @@ const TaskCard = (props) => {
                     <GoTag className='tag-icon' />
                     <p className='priority'>{priority}</p>
                 </div>
-                <Popup
-                    modal
-                    trigger={
-                        <button className='show-more-btn'>Show more...</button>
-                    }>
-                        {close => (
-                            <div className='model-container'>
-                                <IoMdClose onClick={() => close()} />
-                                <h1>{taskname}</h1>
-                            </div>
-                        )}
-                    </Popup>
-                
+                <TaskCardDetaildView taskDetails={taskData} />
             </div>
             {isCompleted ? null : (
                 <div

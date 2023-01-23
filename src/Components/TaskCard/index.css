@@ -1,5 +1,5 @@
 .task-card {
-  width: 217px;
+  width: 220px;
   height: 160px;
   display: flex;
   flex-direction: row;
@@ -12,8 +12,9 @@
   /* border: 1px solid red; */
   margin: 0;
   margin-bottom: 29px;
-  margin-right: 29px;
+  margin-right: 27px;
   overflow: hidden;
+  transition: all 0.5s;
 }
 
 /* @media (prefers-reduced-motion: no-preference) {
@@ -37,7 +38,7 @@
 .task-card:hover {
   /* width: 185px;
   height: 145px; */
-  scale: 1.02;
+  transform: scale(1.02);
   transition: 0.2s ease-in-out;
   box-shadow: 0px 4px 10px 0px #8908a3;
 }
@@ -65,6 +66,7 @@
   margin: 0;
   margin-top: 8px;
   margin-bottom: 5px;
+  width: 130px;
 }
 
 .priority-box {

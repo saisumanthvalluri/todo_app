@@ -1,8 +1,8 @@
 .tab-item {
     /* border: 1px solid red; */
-    height: 45px;
+    height: 38px;
     width: 190px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .tab-btn {
@@ -13,16 +13,17 @@
     width: 100%;
     border: none;
     font-size: 19px;
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    /* border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px; */
+    border-radius: 8px;
     font-weight: 500;
     transition: 0.2s ease-in-out;
     color: #ffffff;
 }
 
 .tab-btn:hover {
-    background-color: #7c737d;
     transition: 0.2s ease-in-out;
+    /* border: 1px solid #91C9FF; */
 }
 
 .btn-content-box {
@@ -32,7 +33,6 @@
 }
 
 .active {
-    background-color: #7c737d;
-    color: #ff0b37;
+    border: 1px solid #91C9FF;
     scale: 1.1;
 }

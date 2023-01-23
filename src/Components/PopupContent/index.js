@@ -1,11 +1,14 @@
 import { Component } from "react";
 import newTaskContext from "../../Context/newTaskContext";
 import {BsExclamationCircle, BsCheckCircle} from 'react-icons/bs'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import './index.css'
 
 class PopupContent extends Component {
     state = {
-        msg: ""
+        msg: "",
+        startDate: null,
     }
     render() {
         return(
@@ -37,24 +40,34 @@ class PopupContent extends Component {
                     }
 
                     const onChangeDueDate = (e) => {
-                        changeDueDate(e.target.value)
+                        changeDueDate(e)
+                    }
+
+                    const emptyMsg = () => {
+                        this.setState({msg: ""})
                     }
 
                     const onCreateNewTask = () => {
                         if (taskName === "" || taskDetails === "" || priority === "" || dueDate === "") {
+                            
                             this.setState({msg : "All fields are mandatory!"})
+                            setTimeout(function(){
+                                emptyMsg()
+                            }, 5000)
                         } else {
                             createNewTask()
                             this.setState({msg: "Task Added Successfully!"})
+                            setTimeout(function(){
+                                emptyMsg()
+                            }, 3000)
                         }
                     }
                     
                     const msgClassName = this.state.msg === 
                             "All fields are mandatory!" ? "msg error" : "msg success"
                     // console.log(allLabels)
-
                     return(
-                        <form className="new-task-from">
+                        <form className="new-task-from" autoComplete='off'>
                             <label 
                                 className="form-label"
                                 htmlFor="taskName">
@@ -102,12 +115,18 @@ class PopupContent extends Component {
                                 htmlFor="dueDate">
                                     Due Date<sup className="star">*</sup>
                             </label>
-                            <input 
-                                value={dueDate} 
-                                onChange={onChangeDueDate} 
-                                type="date" 
-                                className="form-input" 
-                                id="dueDate" />
+                            <DatePicker
+                                selected={dueDate}
+                                onChange={(date) => onChangeDueDate(date)}
+                                minDate={new Date()}
+                                // maxDate={addMonths(new Date(), 5)}
+                                showDisabledMonthNavigation
+                                fixedHeight
+                                showPopperArrow={false}
+                                todayButton="Today"
+                                placeholderText="Click to select a date"
+                                className="date-picker"
+                            />
                             <button 
                                 className="create-task-btn" 
                                 type="button" 

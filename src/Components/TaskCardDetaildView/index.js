@@ -1,33 +1,38 @@
-import TaskCard from "../TaskCard";
-import Popup from 'reactjs-popup';
+import Modal from 'react-modal';
+import {Component} from 'react'
+import { customStylesForTaskCardView } from '../../AppConstants/constants';
+import {IoMdClose} from 'react-icons/io'
+import "./index.css"
+class TaskCardDetaildView extends Component {
+    state = {
+        modalStatus: false,
+    }
 
+    onOpenModal = () => {
+        this.setState({modalStatus: true})
+    }
 
-const TaskCardDetaildView = () => (
-    <Popup
-        model
-        trigger={TaskCard}>
-           {close => (
-                <div className="modal-container">
-                    <h2 className="modal-title">
-                        Add New Task
-                    </h2>
-                    <hr className="hr-rule" />
-                    <div className="popup-content-box">
-                        <img 
-                            src="https://res.cloudinary.com/duzlefgz6/image/upload/v1670418322/task_lbqijz.png" 
-                            alt="create task" 
-                            className="create-task-img" />
+    onCloseModel = () => {
+        this.setState({modalStatus: false})
+    }
+
+    render() {
+        // const {taskDetails} = this.props
+        // console.log(taskDetails)
+        return(
+            <div className='detaild-view'>
+                <button class="button" onClick={this.onOpenModal}><span>Show more </span></button>
+                <Modal
+                    isOpen={this.state.modalStatus}
+                    style={customStylesForTaskCardView}
+                    onRequestClose={this.state.modalStatus}>
+                    <div className='detaild-view-modal'>
+                        <IoMdClose type='button' className='close-icon' onClick={this.onCloseModel} />
                     </div>
-                    <button
-                        className="modal-close-btn"
-                        onClick={() => {
-                        close();
-                        }}>
-                        close
-                    </button>
-                </div>
-            )}
-    </Popup>
-)
+                </Modal>
+            </div>
+        )
+    }
+}
 
 export default TaskCardDetaildView

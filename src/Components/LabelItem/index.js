@@ -7,31 +7,7 @@ import {BiEdit} from 'react-icons/bi'
 import {MdOutlineDelete} from 'react-icons/md'
 import {IoMdClose} from 'react-icons/io'
 import './index.css'
-
-
-const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: "200px",
-      height: "230px",
-      backgroundColor: "antiquewhite",
-      display: "flex",
-      flexDirection: "column",
-    },
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      },
-  };
+import {customStyles} from '../../AppConstants/constants'
 class LabelItem extends Component {
 
     state={
@@ -48,7 +24,16 @@ class LabelItem extends Component {
         return(
             <newTaskContext.Consumer>
                 {value => {
-                    const {deleteLabel, editLabel, editLabelText, setEditableLabelData, editLabelColor, editedLabelText, editedLabelColor} = value
+                    const {
+                        deleteLabel,
+                        editLabel,
+                        editLabelText,
+                        setEditableLabelData,
+                        editLabelColor,
+                        editedLabelText,
+                        editedLabelColor,
+                        allTasks
+                    } = value
                     
                     const onDeleteLabel = () => {
                         deleteLabel(id)
@@ -71,9 +56,20 @@ class LabelItem extends Component {
                     }
 
                     const onOpen = () => {
-                        this.setState({msg: ""})
-                        this.setState({modalIsOpen: true})
-                        setEditableLabelData(labelDetails)
+                        let counter = 0
+                        for (let task of allTasks) {
+                            if (task.priority === labelText) {
+                                counter += 1
+                            }
+                        }
+
+                        if (counter === 0) {
+                            this.setState({msg: ""})
+                            this.setState({modalIsOpen: true})
+                            setEditableLabelData(labelDetails)
+                        } else {
+                            alert(`you can't Update ${labelText} label as it is exists in Tasks!`)
+                        }
                     }
 
                     const onClose = () => {
@@ -93,14 +89,15 @@ class LabelItem extends Component {
                                         isOpen={this.state.modalIsOpen}
                                         style={customStyles}
                                         onRequestClose={this.state.modalIsOpen}
-                                    >
+                                        ariaHideApp={false}
+                                        >
                                         <div className='edit-container'>
                                             <IoMdClose onClick={onClose} className="close-icon" />
-                                            <form className="editlabel-color-form">
+                                            <form className="editlabel-color-form" autoComplete='off'>
                                                 <label 
                                                     className="form-label3"
                                                     htmlFor="LabelName">
-                                                        Label Name<sup className="star">*</sup>
+                                                        Label Name
                                                 </label>
                                                 <input
                                                     value={editedLabelText}
@@ -114,7 +111,7 @@ class LabelItem extends Component {
                                                     <label 
                                                         className="form-label3"
                                                         htmlFor="LabelColor">
-                                                            Label Color<sup className="star">*</sup>
+                                                            Label Color
                                                     </label>
                                                     <input
                                                         value={editedLabelColor}
@@ -133,8 +130,10 @@ class LabelItem extends Component {
                                                 </button>
                                                 {this.state.msg !== "" ? (
                                                     <div className="msg-box">
-                                                            <BsCheckCircle className="msg-info-logo" style={{color: "green"}} />
-                                                        <p className="msg" style={{width:"100%", fontSize:"14px", color:"green"}}>{this.state.msg}</p>  
+                                                        <BsCheckCircle className="msg-info-logo" style={{color: "green"}} />
+                                                        <p className="msg" style={{width:"100%",fontSize:"14px",color:"green"}}>
+                                                            {this.state.msg}
+                                                        </p>  
                                                     </div> 
                                                 ) : null}
                                             </form>
