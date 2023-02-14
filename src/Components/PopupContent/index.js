@@ -1,6 +1,7 @@
 import { Component } from "react";
 import newTaskContext from "../../Context/newTaskContext";
 import {BsExclamationCircle, BsCheckCircle} from 'react-icons/bs'
+import {BiErrorCircle} from 'react-icons/bi'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './index.css'
@@ -102,14 +103,21 @@ class PopupContent extends Component {
                             <select 
                                 id="priority" 
                                 className="form-input" 
-                                value={priority} 
+                                disabled={allLabels.length === 0}
                                 onChange={onChangePriority}>
+                                    <option value="" disabled selected hidden>Choose a Priority</option>
                                     {allLabels.map((e) => (
                                         <option value={e.labelText} id={e.id} >
                                             {e.labelText}
                                         </option> 
                                     ))}
                             </select>
+                            {allLabels.length === 0 ? (
+                                <div className="msg-box" style={{marginTop: "0px"}}>
+                                    <BiErrorCircle style={{fontSize: "25px", color: "red", marginRight: "8px"}} />
+                                    <p style={{fontSize: "16px", color: "red"}}>No labels available. Please create labels first</p>
+                                </div>
+                            ) : null}
                             <label 
                                 className="form-label" 
                                 htmlFor="dueDate">

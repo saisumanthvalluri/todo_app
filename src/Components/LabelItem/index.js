@@ -7,12 +7,13 @@ import {BiEdit} from 'react-icons/bi'
 import {MdOutlineDelete} from 'react-icons/md'
 import {IoMdClose} from 'react-icons/io'
 import './index.css'
-import {customStyles} from '../../AppConstants/constants'
+import {customStylesForLabelEdit, customStylesForLabelDelete} from '../../AppConstants/constants'
 class LabelItem extends Component {
 
     state={
         msg: "",
-        modalIsOpen: false,
+        editLabelModel: false,
+        deleteLabelModel: false,
     }
 
     render() {
@@ -34,6 +35,14 @@ class LabelItem extends Component {
                         editedLabelColor,
                         allTasks
                     } = value
+
+                    const onOpenDeleteLabelModel = () => {
+                        this.setState({deleteLabelModel: true})
+                    }
+
+                    const onCloseDeleteLabelModel = () => {
+                        this.setState({deleteLabelModel: false})
+                    }
                     
                     const onDeleteLabel = () => {
                         deleteLabel(id)
@@ -65,7 +74,7 @@ class LabelItem extends Component {
 
                         if (counter === 0) {
                             this.setState({msg: ""})
-                            this.setState({modalIsOpen: true})
+                            this.setState({editLabelModel: true})
                             setEditableLabelData(labelDetails)
                         } else {
                             alert(`you can't Update ${labelText} label as it is exists in Tasks!`)
@@ -73,7 +82,7 @@ class LabelItem extends Component {
                     }
 
                     const onClose = () => {
-                        this.setState({modalIsOpen: false})
+                        this.setState({editLabelModel: false})
                     }
                     return(
                         <Labelitem className='label-item' key={id}>
@@ -86,9 +95,9 @@ class LabelItem extends Component {
                                     
                                     <BiEdit className='edit-icon' onClick={onOpen} />
                                     <Modal
-                                        isOpen={this.state.modalIsOpen}
-                                        style={customStyles}
-                                        onRequestClose={this.state.modalIsOpen}
+                                        isOpen={this.state.editLabelModel}
+                                        style={customStylesForLabelEdit}
+                                        onRequestClose={this.state.editLabelModel}
                                         ariaHideApp={false}
                                         >
                                         <div className='edit-container'>
@@ -139,7 +148,21 @@ class LabelItem extends Component {
                                             </form>
                                         </div>
                                     </Modal>
-                                    <MdOutlineDelete className='edit-icon' onClick={onDeleteLabel} />
+                                    <MdOutlineDelete className='edit-icon' onClick={onOpenDeleteLabelModel} />
+                                    <Modal
+                                        isOpen={this.state.deleteLabelModel}
+                                        style={customStylesForLabelDelete}
+                                        onRequestClose={this.state.deleteLabelModel}
+                                        ariaHideApp={false}
+                                        >
+                                        <div>
+                                            <h3 className="are-you-sure-text">Are you Sure! You want to Delete?</h3>
+                                            <div className='buttons-box'>
+                                                <button className='btn cancel' onClick={onCloseDeleteLabelModel}>Cancel</button>
+                                                <button className='btn delete' onClick={onDeleteLabel}>Delete</button>
+                                            </div>
+                                        </div>
+                                    </Modal>
                                 </div>
                             </div>
                         </Labelitem>

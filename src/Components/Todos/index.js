@@ -14,7 +14,7 @@ class Todos extends Component {
     state = {
         taskName: "",
         taskDetails: "",
-        priority: "High",
+        priority: "",
         dueDate: "",
         allTasks: [],
         searchInput: "",
@@ -65,7 +65,7 @@ class Todos extends Component {
         // console.log(newTask)
         this.setState(prev => ({
             allTasks: [...prev.allTasks, newTask],
-            taskName: "", taskDetails: "", priority: "High", dueDate: ""
+            taskName: "", taskDetails: "", priority: "", dueDate: ""
         }))
         this.updateLocalStorage()
     }
@@ -109,7 +109,7 @@ class Todos extends Component {
         return(
             <div className='no-task-view'>
                 <img
-                    src="https://res.cloudinary.com/duzlefgz6/v1670909186/task-not-found-4810738-4009510_1_ky7zx4.png"
+                    src="https://res.cloudinary.com/duzlefgz6/task-not-found-4810738-4009510_1_ky7zx4.png"
                     alt="NoTask"
                     className='no-task-img' />
                 <h3 className='not-found-text'>No Tasks Found in {tabNameParts[0]}</h3>

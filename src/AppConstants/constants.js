@@ -16,7 +16,7 @@ export const TabsList = [
     {id: "DUE", tabText: "Due Soon", tabLogo: <BsThreeDots className="tab-icons" />},
 ]
 
-export const customStyles = {
+export const customStylesForLabelEdit = {
     content: {
       top: '50%',
       left: '50%',
@@ -24,7 +24,7 @@ export const customStyles = {
       bottom: 'auto',
       transform: 'translate(-50%, -50%)',
       width: "200px",
-      height: "230px",
+      height: "200px",
       backgroundColor: "antiquewhite",
       display: "flex",
       flexDirection: "column",
@@ -53,6 +53,30 @@ export const customStylesForTaskCardView = {
       display: "flex",
       flexDirection: "column",
       padding: "10px",
+    },
+    overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
+  };
+
+  export const customStylesForLabelDelete = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      width: '320px',
+      height: '140px',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: "white",
+      display: "flex",
+      flexDirection: "column",
+      padding: "8px",
     },
     overlay: {
         position: 'fixed',

@@ -5,8 +5,9 @@ import TabItem from "../TabItem";
 import LabelItem from "../LabelItem";
 import newTaskContext from "../../Context/newTaskContext";
 import {BsExclamationCircle, BsCheckCircle} from 'react-icons/bs'
-import {IoMdAddCircleOutline, IoMdClose} from 'react-icons/io'
+import {IoMdClose} from 'react-icons/io'
 import { TabsList } from "../../AppConstants/constants";
+import {MdOutlineNewLabel, MdOutlineLabelOff} from 'react-icons/md'
 import 'reactjs-popup/dist/index.css';
 import './index.css'
 class Sidebar extends Component {
@@ -19,13 +20,19 @@ class Sidebar extends Component {
         this.setState({activeTabId: id})
     }
 
+    renderNoLabelsView = () => (
+        <div className="no-lables-box">
+            <MdOutlineLabelOff className="no-lables-icon" />
+            <p className="no-labels-text">Oops... No Labels!</p>
+        </div>
+    )
+
     render() {
         const {activeTabId} = this.state
         return(
             <newTaskContext.Consumer>
                 {value => {
                     const {createNewLabel, changeLabelInput, changeLabelColor,labelName, labelColor, allLabels} = value
-
                     const onChangeLabelInput = (e) => {
                         changeLabelInput(e.target.value)
                     }
@@ -90,22 +97,24 @@ class Sidebar extends Component {
                                 ))}
                             </ul>
                             <h3 className="lables-heading">Lables</h3>
-                            <ul className="labels-box">
-                                {allLabels.map((e) => (
-                                    <LabelItem 
-                                        key={e.id}
-                                        labelDetails={e}
-                                    />
-                                ))}
-                            </ul>
+                            {allLabels.length === 0 ? this.renderNoLabelsView() : (
+                                <ul className="labels-box">
+                                    {allLabels.map((e) => (
+                                        <LabelItem 
+                                            key={e.id}
+                                            labelDetails={e}
+                                        />
+                                    ))}
+                                </ul>
+                            ) }
                             <Popup
                                 className="pop-up"
                                 position="right center"
                                 trigger={
-                                    <div className="add-label-box">
-                                        <IoMdAddCircleOutline className="add-icon" />
-                                        <h4 className="add-label-text" onClick={onClearMsg}>Add Label</h4>
-                                    </div>
+                                    <button className="add-label-box">
+                                        <MdOutlineNewLabel style={{fontSize: "30"}} />
+                                        <h4 onClick={onClearMsg}>Add Label</h4>
+                                    </button>
                                 }>
                                     {close => (
                                         <div className="modal-container2">

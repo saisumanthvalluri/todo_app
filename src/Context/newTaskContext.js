@@ -5,7 +5,7 @@ import {labelsList} from '../AppConstants/constants'
 const newTaskContext = React.createContext({
   taskName: "",
   taskDetails: "",
-  priority: "High",
+  priority: "",
   dueDate: "",
   activeTab: "INCOMPLETE",
   allTasks: [],

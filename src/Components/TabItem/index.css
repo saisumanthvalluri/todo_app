@@ -13,18 +13,17 @@
     width: 100%;
     border: none;
     font-size: 19px;
-    /* border-top-left-radius: 15px;
-    border-bottom-right-radius: 15px; */
+    border: none;
     border-radius: 8px;
     font-weight: 500;
-    transition: 0.2s ease-in-out;
+    /* transition: 0.2s ease-in-out; */
     color: #ffffff;
 }
 
-.tab-btn:hover {
+/* .tab-btn:hover {
     transition: 0.2s ease-in-out;
-    /* border: 1px solid #91C9FF; */
-}
+    border: 1px solid #91C9FF;
+} */
 
 .btn-content-box {
     display: flex;
@@ -34,5 +33,4 @@
 
 .active {
     border: 1px solid #91C9FF;
-    scale: 1.1;
 }
